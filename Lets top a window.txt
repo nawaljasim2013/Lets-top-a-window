@@ -1,0 +1,69 @@
+from tkinter import *
+from tkinter import messagebox
+
+root = Tk()
+root.title("Denomination Counter")
+root.geometry("400x450")
+root.configure(bg="light blue")
+
+Label(root, text="Denomination Counter", bg="light blue",
+      font=("Arial", 14, "bold")).pack(pady=20)
+
+def open_calculator():
+    top = Toplevel(root)
+    top.title("Calculator")
+    top.geometry("350x250")
+    top.configure(bg="light grey")
+
+    Label(top, text="Enter total amount", bg="light grey").pack()
+    entry = Entry(top)
+    entry.pack(pady=5)
+
+    frame = Frame(top, bg="light grey")
+    frame.pack(pady=10)
+
+    Label(frame, text="2000", bg="light grey").grid(row=0, column=0)
+    Label(frame, text="500", bg="light grey").grid(row=1, column=0)
+    Label(frame, text="100", bg="light grey").grid(row=2, column=0)
+
+    t1, t2, t3 = Entry(frame), Entry(frame), Entry(frame)
+    t1.grid(row=0, column=1)
+    t2.grid(row=1, column=1)
+    t3.grid(row=2, column=1)
+
+    def calculate():
+        try:
+            amount = int(entry.get())
+
+            note2000 = amount // 2000
+            amount %= 2000
+            note500 = amount // 500
+            amount %= 500
+            note100 = amount // 100
+
+            for box, value in [(t1, note2000), (t2, note500), (t3, note100)]:
+                box.delete(0, END)
+                box.insert(END, value)
+
+        except ValueError:
+            messagebox.showerror("Error", "Enter a valid number")
+
+    Button(top, text="Calculate", command=calculate,
+           bg="brown", fg="white").pack(pady=10)
+
+def start():
+    if messagebox.askokcancel("Confirm", "Calculate denomination count?"):
+        open_calculator()
+
+Button(root, text="Start", command=start,
+       bg="brown", fg="white").pack()
+
+root.mainloop()
+
+
+
+
+
+
+
+
